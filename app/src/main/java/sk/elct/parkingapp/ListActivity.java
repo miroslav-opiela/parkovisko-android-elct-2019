@@ -1,5 +1,6 @@
 package sk.elct.parkingapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,6 +35,8 @@ public class ListActivity extends AppCompatActivity {
     private ListView listView;
 
     private ParkingLot parkingLot;
+
+    private static final int NEW_TICKET_REQUEST_CODE = 8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +53,7 @@ public class ListActivity extends AppCompatActivity {
                 Intent intent
                         = new Intent(ListActivity.this,
                         NewTicketActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, NEW_TICKET_REQUEST_CODE);
             }
         });
 
@@ -57,7 +61,11 @@ public class ListActivity extends AppCompatActivity {
         parkingLot.demoData();
 
         listView = findViewById(R.id.listViewTickets);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         ListAdapter adapter = new ArrayAdapter<Ticket>(this,
                 android.R.layout.simple_list_item_2,
                 android.R.id.text1,
@@ -90,4 +98,14 @@ public class ListActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    @Nullable Intent data) {
+        if (requestCode == NEW_TICKET_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                Ticket ticket = (Ticket) data.getSerializableExtra(NewTicketActivity.EXTRA_NAME_TICKET);
+                parkingLot.checkIn(ticket.getEcv(), null);
+            }
+        }
+    }
 }

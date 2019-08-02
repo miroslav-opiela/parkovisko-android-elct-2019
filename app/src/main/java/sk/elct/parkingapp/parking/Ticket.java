@@ -1,11 +1,12 @@
 package sk.elct.parkingapp.parking;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Reprezentuje jedno zaparkovanie.
  */
-public class Ticket implements Comparable<Ticket>{
+public class Ticket implements Serializable, Comparable<Ticket>{
 
     /**
      * SPZ auta

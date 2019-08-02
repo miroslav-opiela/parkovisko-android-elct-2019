@@ -1,8 +1,9 @@
 package sk.elct.parkingapp.parking;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class CompanyTicket extends Ticket {
+public class CompanyTicket extends Ticket implements Serializable {
 
     private String company;
 
