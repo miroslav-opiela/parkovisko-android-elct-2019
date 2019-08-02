@@ -7,22 +7,32 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.List;
 
+import sk.elct.parkingapp.parking.CompanyTicket;
+import sk.elct.parkingapp.parking.ParkingLot;
+import sk.elct.parkingapp.parking.Ticket;
+
 public class ListActivity extends AppCompatActivity {
 
     private ListView listView;
+
+    private ParkingLot parkingLot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,24 +50,39 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
+        parkingLot = new ParkingLot(10);
+        parkingLot.demoData();
+
         listView = findViewById(R.id.listViewTickets);
-        final List<String> words = Arrays.asList(
-                "https://play.google.com", "https://developer.android.com",
-                "https://github.com/miroslav-opiela"
-        );
-        ListAdapter adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, words);
+
+        ListAdapter adapter = new ArrayAdapter<Ticket>(this,
+                android.R.layout.simple_list_item_2,
+                android.R.id.text1,
+                parkingLot.getAllTickets()) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView,
+                                @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text1 = view.findViewById(android.R.id.text1);
+                TextView text2 = view.findViewById(android.R.id.text2);
+
+                Ticket ticket = getItem(position);
+                text1.setText(ticket.getEcv());
+                if (ticket instanceof CompanyTicket) {
+                    CompanyTicket companyTicket = (CompanyTicket) ticket;
+                    text2.setText(companyTicket.getCompany());
+                }
+                return view;
+            }
+        };
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView,
                                     View view, int position, long id) {
-                Log.d("TEST", position + " " + words.get(position));
-                Uri uri = Uri.parse(words.get(position));
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-
+                Log.d("TEST", "clicked on " + position);
             }
         });
     }
