@@ -55,12 +55,20 @@ public class NewTicketActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            // ak sa kliklo na sipku spat v app bare
+        }
         if (itemId == R.id.itemAddTicket) {
             Ticket ticket = createTicket();
             Intent resultIntent = new Intent();
             resultIntent.putExtra(EXTRA_NAME_TICKET, ticket);
             if (ticket != null) {
-                setResult(Activity.RESULT_OK, resultIntent);
+                // alternativne if(checkboxCompany.isChecked())
+                if (ticket instanceof CompanyTicket) {
+                    setResult(ListActivity.RESULT_OK_COMPANY_TICKET, resultIntent);
+                } else {
+                    setResult(ListActivity.RESULT_OK_TICKET, resultIntent);
+                }
             } else {
                 setResult(Activity.RESULT_CANCELED, resultIntent);
             }

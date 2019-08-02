@@ -34,11 +34,12 @@ public class ParkingLot {
     }
 
     public void demoData() {
-        data.add(new Ticket("KE123AA"));
-        data.add(new Ticket("BJ084DE"));
-        data.add(new CompanyTicket("PO987EE", "ELCT"));
-        data.add(new CompanyTicket("KS444AA", "ELCT"));
-        data.add(new Ticket("BL654CE"));
+
+        checkIn("KE123AA", null);
+        checkIn("BJ084DE", null);
+        checkIn("PO987EE", "ELCT");
+        checkIn("KS444AA", "ELCT");
+        checkIn("BL654CE", null);
     }
 
     /**

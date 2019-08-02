@@ -37,6 +37,8 @@ public class ListActivity extends AppCompatActivity {
     private ParkingLot parkingLot;
 
     private static final int NEW_TICKET_REQUEST_CODE = 8;
+    public static final int RESULT_OK_TICKET = 1;
+    public static final int RESULT_OK_COMPANY_TICKET = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,8 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
+        // problem pri otacani zariadenia, treba ulozit do bundle
+        Log.d("PARKING", "ON CREATE vytvara sa novy parking lot");
         parkingLot = new ParkingLot(10);
         parkingLot.demoData();
 
@@ -93,7 +97,11 @@ public class ListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView,
                                     View view, int position, long id) {
+                Ticket t = (Ticket) adapterView.getAdapter().getItem(position);
+                int sum = parkingLot.checkOut(t.getEcv());
                 Log.d("TEST", "clicked on " + position);
+                new CheckOutDialog(t, sum).show(getSupportFragmentManager(),
+                        "checkoutDialog");
             }
         });
     }
@@ -102,9 +110,13 @@ public class ListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode,
                                     @Nullable Intent data) {
         if (requestCode == NEW_TICKET_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
+            if (resultCode == RESULT_OK_TICKET) {
                 Ticket ticket = (Ticket) data.getSerializableExtra(NewTicketActivity.EXTRA_NAME_TICKET);
                 parkingLot.checkIn(ticket.getEcv(), null);
+            }
+            if (resultCode == RESULT_OK_COMPANY_TICKET) {
+                CompanyTicket ticket = (CompanyTicket) data.getSerializableExtra(NewTicketActivity.EXTRA_NAME_TICKET);
+                parkingLot.checkIn(ticket.getEcv(), ticket.getCompany());
             }
         }
     }
