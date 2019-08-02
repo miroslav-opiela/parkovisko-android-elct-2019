@@ -13,14 +13,14 @@ import java.util.Scanner;
  */
 public class ListParkingLotDAO implements FileBasedStorage {
 
-    private static final String FILENAME = "parkovisko.txt";
-
+    private File file;
     /**
      * Zoznam listkov pre zaparkovane auta.
      */
     private List<Ticket> tickets;
 
-    public ListParkingLotDAO() {
+    public ListParkingLotDAO(File file) {
+        this.file = file;
         tickets = new ArrayList<>();
         load();
     }
@@ -59,7 +59,6 @@ public class ListParkingLotDAO implements FileBasedStorage {
     }
 
     public void load() {
-        File file = new File(FILENAME);
         try (Scanner sc = new Scanner(file)) {
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
@@ -72,7 +71,6 @@ public class ListParkingLotDAO implements FileBasedStorage {
     }
 
     public void save() {
-        File file = new File(FILENAME);
         // try-catch with resources
         try (PrintWriter pw = new PrintWriter(file)) {
             for (Ticket ticketFromList : tickets) {

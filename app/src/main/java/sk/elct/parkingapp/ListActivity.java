@@ -22,6 +22,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -61,8 +62,9 @@ public class ListActivity extends AppCompatActivity {
 
         // problem pri otacani zariadenia, treba ulozit do bundle
         Log.d("PARKING", "ON CREATE vytvara sa novy parking lot");
-        parkingLot = new ParkingLot(10);
-        parkingLot.demoData();
+        File file = new File(getFilesDir(),"parking.txt");
+        parkingLot = new ParkingLot(10, file);
+        //parkingLot.demoData();
 
         listView = findViewById(R.id.listViewTickets);
     }
@@ -70,7 +72,7 @@ public class ListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ListAdapter adapter = new ArrayAdapter<Ticket>(this,
+        final ListAdapter adapter = new ArrayAdapter<Ticket>(this,
                 android.R.layout.simple_list_item_2,
                 android.R.id.text1,
                 parkingLot.getAllTickets()) {
@@ -102,6 +104,9 @@ public class ListActivity extends AppCompatActivity {
                 Log.d("TEST", "clicked on " + position);
                 new CheckOutDialog(t, sum).show(getSupportFragmentManager(),
                         "checkoutDialog");
+                // nejake riesenie na aktualizaciu stavu listview
+                ((ArrayAdapter<Ticket>) adapter).remove(t);
+
             }
         });
     }

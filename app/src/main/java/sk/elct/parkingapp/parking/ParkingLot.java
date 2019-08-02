@@ -1,5 +1,6 @@
 package sk.elct.parkingapp.parking;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -27,9 +28,9 @@ public class ParkingLot {
      */
     private Map<String, Integer> companyHistory;
 
-    public ParkingLot(int capacity) {
+    public ParkingLot(int capacity, File file) {
         this.capacity = capacity;
-        data = new ListParkingLotDAO();
+        data = new ListParkingLotDAO(file);
         companyHistory = new HashMap<>();
     }
 
