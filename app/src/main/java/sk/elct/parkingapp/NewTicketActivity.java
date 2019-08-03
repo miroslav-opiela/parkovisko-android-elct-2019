@@ -16,13 +16,18 @@ import androidx.appcompat.widget.Toolbar;
 import sk.elct.parkingapp.parking.CompanyTicket;
 import sk.elct.parkingapp.parking.Ticket;
 
-
+/**
+ * Aktivita zodpovedna za checkIn
+ */
 public class NewTicketActivity extends AppCompatActivity {
 
     private EditText editTextEcv;
     private EditText editTextCompany;
     private CheckBox checkBoxCompany;
 
+    /**
+     * TAG pouzivany v extra, ked sa data zabalia a posielaju cez intent
+     */
     public static final String EXTRA_NAME_TICKET = "ticket";
 
     @Override
@@ -38,6 +43,7 @@ public class NewTicketActivity extends AppCompatActivity {
         editTextCompany = findViewById(R.id.editTextCompany);
         checkBoxCompany = findViewById(R.id.checkBoxCompany);
 
+        // listener, ked sa klikne na checkbox tak sa zapne/vypne moznost vlozit company name
         checkBoxCompany.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
@@ -58,25 +64,32 @@ public class NewTicketActivity extends AppCompatActivity {
         if (itemId == android.R.id.home) {
             // ak sa kliklo na sipku spat v app bare
         }
+        // ak sa kliklo na '+' oznacujuce pridanie noveho ticketu
         if (itemId == R.id.itemAddTicket) {
             Ticket ticket = createTicket();
             Intent resultIntent = new Intent();
+            // prilozenie extra dat do intentu
             resultIntent.putExtra(EXTRA_NAME_TICKET, ticket);
             if (ticket != null) {
                 // alternativne if(checkboxCompany.isChecked())
                 if (ticket instanceof CompanyTicket) {
                     setResult(ListActivity.RESULT_OK_COMPANY_TICKET, resultIntent);
                 } else {
+                    // nastavenie vysledku aktivity
                     setResult(ListActivity.RESULT_OK_TICKET, resultIntent);
                 }
             } else {
                 setResult(Activity.RESULT_CANCELED, resultIntent);
             }
+            // ukoncenie aktivity
             finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Spracuje formular (edit texty a checkbox) a vyrobi objekt triedy ticket
+     */
     private Ticket createTicket() {
         String ecv = editTextEcv.getText().toString();
         if (ecv.length() == 0) {

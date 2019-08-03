@@ -16,11 +16,15 @@ public class CheckOutDialog extends DialogFragment {
     private Ticket ticket;
     private double sum;
 
+    // data aktivita poskytne dialogu cez konstruktor
     public CheckOutDialog(Ticket ticket, int sum) {
         this.ticket = ticket;
         this.sum = sum / 100.0;
     }
 
+    /**
+     * Vyrobi dialog na kluc.
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
