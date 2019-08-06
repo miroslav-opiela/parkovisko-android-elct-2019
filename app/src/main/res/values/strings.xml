@@ -7,4 +7,16 @@
     <string name="company_name">Company Name</string>
     <string name="submit">Submit</string>
     <string name="open_call_log">Open Call Log</string>
+
+    <array name="default_phone_numbers">
+        <item>0901 000 000</item>
+        <item>0948 484 484</item>
+        <item>0907 123 456</item>
+    </array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ziadne_telefonne_cislo">ziadne telefonne cislo</string>
+    <string name="open_phone_numbers">Open Phone Numbers</string>
+
 </resources>

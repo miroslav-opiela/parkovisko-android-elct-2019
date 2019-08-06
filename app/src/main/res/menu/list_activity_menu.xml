@@ -6,4 +6,10 @@
         android:id="@+id/itemOpenCallLog"
         app:showAsAction="never"
         android:title="@string/open_call_log" />
+
+    <item
+        android:id="@+id/itemOpenPhoneNumbers"
+        app:showAsAction="never"
+        android:title="@string/open_phone_numbers" />
+
 </menu>

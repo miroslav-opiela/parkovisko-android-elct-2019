@@ -22,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 
+import sk.elct.parkingapp.fragments.PhoneNumbersActivity;
 import sk.elct.parkingapp.parking.CompanyTicket;
 import sk.elct.parkingapp.parking.ParkingLot;
 import sk.elct.parkingapp.parking.Ticket;
@@ -177,6 +178,10 @@ public class ListActivity extends AppCompatActivity {
         int itemId = item.getItemId();
         if (itemId == R.id.itemOpenCallLog) {
             Intent intent = new Intent(this, CallLogActivity.class);
+            startActivity(intent);
+        }
+        if (itemId == R.id.itemOpenPhoneNumbers) {
+            Intent intent = new Intent(this, PhoneNumbersActivity.class);
             startActivity(intent);
         }
 
