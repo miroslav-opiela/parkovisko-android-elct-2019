@@ -17,19 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
-import java.util.List;
 
-import sk.elct.parkingapp.database.Company;
-import sk.elct.parkingapp.database.CompanyListAdapter;
-import sk.elct.parkingapp.database.CompanyViewModel;
+import sk.elct.parkingapp.database.CompaniesActivity;
 import sk.elct.parkingapp.fragments.PhoneNumbersActivity;
 import sk.elct.parkingapp.parking.CompanyTicket;
 import sk.elct.parkingapp.parking.ParkingLot;
@@ -65,8 +58,6 @@ public class ListActivity extends AppCompatActivity {
      */
     public static final int RESULT_OK_COMPANY_TICKET = 2;
 
-    private CompanyViewModel viewModel;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,28 +88,78 @@ public class ListActivity extends AppCompatActivity {
         parkingLot = new ParkingLot(10, file);
         //parkingLot.demoData();
 
-
-        RecyclerView r = findViewById(R.id.recyclerview);
-        final CompanyListAdapter adapter = new CompanyListAdapter(this);
-        r.setAdapter(adapter);
-        r.setLayoutManager(new LinearLayoutManager(this));
-
-        viewModel = ViewModelProviders.of(this).get(CompanyViewModel.class);
-        viewModel.getData().observe(this, new Observer<List<Company>>() {
-            @Override
-            public void onChanged(List<Company> companies) {
-                adapter.setData(companies);
-            }
-        });
+        listView = findViewById(R.id.listViewTickets);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        // adapter popisuje data v listview ziskane z listu/pola
+        final ListAdapter adapter = new ArrayAdapter<Ticket>(this,
+                android.R.layout.simple_list_item_2,
+                android.R.id.text1,
+                parkingLot.getAllTickets()) {
 
+            /**
+             * Prekryta metoda, ktora definuje ako sa jednotlivym komponentom
+             * (textview) priradia konkretne casti dat
+             */
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView,
+                                @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text1 = view.findViewById(android.R.id.text1);
+                TextView text2 = view.findViewById(android.R.id.text2);
+
+                Ticket ticket = getItem(position);
+                text1.setText(ticket.getEcv());
+                // ak ide o company ticket, nastavuje sa aj druhy riadok
+                if (ticket instanceof CompanyTicket) {
+                    CompanyTicket companyTicket = (CompanyTicket) ticket;
+                    text2.setText(companyTicket.getCompany());
+                }
+                return view;
+            }
+        };
+        listView.setAdapter(adapter);
+
+        // anonymna trieda implementujuca interface s metodou onItemClick
+        // teda vola sa vzdy ked sa klikne na nejaku polozku v list view
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView,
+                                    View view, int position, long id) {
+                Ticket t = (Ticket) adapterView.getAdapter().getItem(position);
+                int sum = parkingLot.checkOut(t.getEcv());
+                Log.d("TEST", "clicked on " + position);
+                // vytvara sa novy dialog fragment (je to v samostatnej triede)
+                new CheckOutDialog(t, sum).show(getSupportFragmentManager(),
+                        "checkoutDialog");
+                // odstrani polozku aj z adaptera, checkout odstranuje iba z DAO
+                ((ArrayAdapter<Ticket>) adapter).remove(t);
+            }
+        });
     }
 
-
+    /**
+     * Metoda sa vola, ked aktivita ktoru sme volali cez startActivityForResult skonci
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    @Nullable Intent data) {
+        // overime request a result kody a podla toho vykoname akciu, data sa vytahuju z intentu
+        if (requestCode == NEW_TICKET_REQUEST_CODE) {
+            if (resultCode == RESULT_OK_TICKET) {
+                Ticket ticket = (Ticket) data.getSerializableExtra(NewTicketActivity.EXTRA_NAME_TICKET);
+                parkingLot.checkIn(ticket.getEcv(), null);
+            }
+            if (resultCode == RESULT_OK_COMPANY_TICKET) {
+                CompanyTicket ticket = (CompanyTicket) data.getSerializableExtra(NewTicketActivity.EXTRA_NAME_TICKET);
+                parkingLot.checkIn(ticket.getEcv(), ticket.getCompany());
+            }
+        }
+    }
 
     /**
      * Vytvori menu podla zadaneho xml, jednotlive polozky su umiestnene
@@ -142,6 +183,10 @@ public class ListActivity extends AppCompatActivity {
         }
         if (itemId == R.id.itemOpenPhoneNumbers) {
             Intent intent = new Intent(this, PhoneNumbersActivity.class);
+            startActivity(intent);
+        }
+        if (itemId == R.id.itemDatabaseActivity) {
+            Intent intent = new Intent(this, CompaniesActivity.class);
             startActivity(intent);
         }
 

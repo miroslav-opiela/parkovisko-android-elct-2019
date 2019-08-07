@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="sk.elct.parkingapp">
 
-    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
 
     <application
         android:allowBackup="true"
@@ -36,6 +36,7 @@
         <activity android:name=".fragments.PhoneNumbersActivity">
 
         </activity>
+        <activity android:name=".database.CompaniesActivity"></activity>
     </application>
 
 </manifest>

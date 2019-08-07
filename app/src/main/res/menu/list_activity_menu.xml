@@ -12,4 +12,9 @@
         app:showAsAction="never"
         android:title="@string/open_phone_numbers" />
 
+    <item
+        android:id="@+id/itemDatabaseActivity"
+        app:showAsAction="never"
+        android:title="@string/open_database_activity" />
+
 </menu>
