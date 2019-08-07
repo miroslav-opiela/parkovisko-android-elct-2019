@@ -17,6 +17,7 @@ import sk.elct.parkingapp.R;
  */
 public class MasterFragment extends Fragment {
 
+    // listener, ktory treba upozornit ked sa klikne na tel. cislo v zozname
     private OnPhoneNumberClickListener listener;
 
     public MasterFragment() {

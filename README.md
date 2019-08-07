@@ -1,4 +1,14 @@
 # Android
+
+### Materiál k 4. dňu (po skončení kurzu)
+
+**Prosím vyplnte [dotazník](https://forms.gle/vykMAMK7XdegQo1b9) so spätnou väzbou pre mňa ako lektora.**
+
+Odkazy a materiály pribudnú neskôr.
+
+
+### Materiál po 3. dni
+---
 Materiál so zdrojovými kódmi a návodmi: <http://ics.upjs.sk/~opiela/vma/> Kurz bol realizovaný na jar 2018. Niektoré veci môžu byť preto neaktuálne.
 
 Návrh UI pre aplikáciu parkoviska: <http://rmsoft.sk/parkovisko/> 
