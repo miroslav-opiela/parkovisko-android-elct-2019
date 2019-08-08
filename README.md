@@ -4,12 +4,46 @@
 
 **Prosím vyplnte [dotazník](https://forms.gle/vykMAMK7XdegQo1b9) so spätnou väzbou pre mňa ako lektora.**
 
-Odkazy a materiály pribudnú neskôr.
+Hlavné návody, podľa ktorých sme programovali priamo počas kurzu:
+* <https://codelabs.developers.google.com/codelabs/android-room-with-a-view>
+ 	* Android Room - práca s databázou, Recycler View, LiveData ...
 
+* <https://github.com/novotnyr/android-doc-ilko>
+	* Fragmenty
+
+---
+Ďalšie doplňujúce materiály:
+* <http://ics.upjs.sk/~novotnyr/android/6-stretnutie-online-prezencka.html>
+ 	* Service, AsyncTask, lokálny broadcast. [Dostupný kód](https://github.com/miroslav-opiela/vma2018-i_am_here) aj s [Retrofit](https://square.github.io/retrofit/) knižnicou na prácu s REST API
+
+* <http://ics.upjs.sk/~novotnyr/android/pouzivatelske-nastavenia-appky.html>
+ 	* Preferences a ako vytvoriť fragment s používateľskými nastaveniami
+
+* <https://www.youtube.com/watch?v=rJ-7KgMAJUo>
+	* RecyclerView a animácie
+
+* <http://ics.upjs.sk/~novotnyr/android/5-stretnutie-zlte-poznamkove-papieriky.html>
+	* Praca s databázou starým spôsobom 
+
+* <https://developer.android.com/guide/topics/resources/localization>
+ 	* Prispôsobenie aplikácie podľa regiónu v rôznych aspektoch vrátane jazykovej mutácie
+
+* <https://developer.android.com/distribute>
+	* Mnoho materiálov k publikovaniu aplikácie v obchode Google Play
+---
+Mimo Android:
+* <https://www.restapitutorial.com/>, <https://www.codecademy.com/articles/what-is-rest>
+	* O tom čo je REST API
+
+* <https://www.json.org/>
+	* JSON. Viac možno nájsť na [wikipédii](https://en.wikipedia.org/wiki/JSON), resp. priamo v triedach ako [JsonReader](https://developer.android.com/reference/android/util/JsonReader.html#parsing-json) na spracovanie JSON súboru.
+
+* <https://www.atlassian.com/git/tutorials>
+	* Návody na prácu s Git-om
 
 ### Materiál po 3. dni
 ---
-Materiál so zdrojovými kódmi a návodmi: <http://ics.upjs.sk/~opiela/vma/> Kurz bol realizovaný na jar 2018. Niektoré veci môžu byť preto neaktuálne.
+Materiál so zdrojovými kódmi a návodmi: <http://ics.upjs.sk/~opiela/vma/> Kurz bol realizovaný na jar 2018. Niektoré veci môžu byť preto neaktuálne. Staršie návody sú dostupné na <http://ics.upjs.sk/~novotnyr/android/>
 
 Návrh UI pre aplikáciu parkoviska: <http://rmsoft.sk/parkovisko/> 
 

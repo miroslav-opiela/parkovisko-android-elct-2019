@@ -7,6 +7,11 @@ import androidx.room.Query;
 
 import java.util.List;
 
+// interface CompanyDAO definuje ako sa bude pristupovat k datam - ktore metody CRUD budu existovat
+// + prislusne SQL dopyty
+
+// triedu implementujucu tento interface nevyrvarame, Android to vytvara podla anotacii
+
 @Dao
 public interface CompanyDAO {
 

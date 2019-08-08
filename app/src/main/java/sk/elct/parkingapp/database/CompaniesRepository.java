@@ -7,9 +7,18 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+/**
+ * Repository trieda sluzi ako controller. Menezuje pristup k datam cez dao.
+ */
 public class CompaniesRepository {
 
+    /**
+     * DAO na priamy pristup k datam
+     */
     private CompanyDAO companyDAO;
+    /**
+     * Live data
+     */
     private LiveData<List<Company>> data;
 
     public CompaniesRepository(Application application) {
@@ -22,6 +31,7 @@ public class CompaniesRepository {
         return data;
     }
 
+    // vlozenie novych dat sa deje asynchronne
     public void insert(Company company) {
         new InsertAsyncTask(companyDAO).execute();
     }

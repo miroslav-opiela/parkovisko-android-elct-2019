@@ -9,6 +9,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+// Abstraktna trieda = neda sa vytvorit instancia. Cize neviem urobit new CompaniesDatabase
+// urobena podla navrhoveho vzoru Singleton - v aplikacii existuje len jeden objekt tejto triedy
+
 @Database(entities = {Company.class}, version = 1)
 public abstract class CompaniesDatabase extends RoomDatabase {
 
@@ -16,10 +19,12 @@ public abstract class CompaniesDatabase extends RoomDatabase {
 
     private static volatile CompaniesDatabase INSTANCE;
 
+    // lazy implementation singletonu, vid napr. wikipedia
     static CompaniesDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (CompaniesDatabase.class) {
                 if (INSTANCE == null) {
+                    // builder databazy. Room vytvara triedy podla anotacii
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             CompaniesDatabase.class, "word_database")
                             .addCallback(sRoomDatabaseCallback)
@@ -30,6 +35,7 @@ public abstract class CompaniesDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    // callback je je vyvolany pri vytvarani instancie
     private static RoomDatabase.Callback sRoomDatabaseCallback =
             new RoomDatabase.Callback(){
 
@@ -40,8 +46,10 @@ public abstract class CompaniesDatabase extends RoomDatabase {
                 }
             };
 
+    // naplnia sa data v databaze asynchronne
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
 
+        // dao na pristup k datam v databaze
         private final CompanyDAO mDao;
 
         PopulateDbAsync(CompaniesDatabase db) {
@@ -50,6 +58,8 @@ public abstract class CompaniesDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(final Void... params) {
+            //DEMO data
+
             mDao.deleteAll();
             Company c = new Company();
             c.setName("ELCT");
